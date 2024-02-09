@@ -15,6 +15,13 @@ app.use((req, res, next) => {
   console.log(req.path, req.method)
   next()
 })
+app.use(cors(
+  {
+    origin:["https://mern-auth-app-rouge.vercel.app/"],
+    methods:['POST','GET'],
+    credentials:true
+  }
+));
 
 // routes
 app.use('/api/workouts', workoutRoutes)
