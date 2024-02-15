@@ -6,12 +6,12 @@ const loginUser=(req,res)=>{
 }
 
 //signup user
-const signupUser=(req,res)=>{
+const signupUser=async (req,res)=>{
 
     const {email, password}=req.body;
 
     try{
-        const user=User.signup(email, password);
+        const user= await User.signup(email, password);
         console.log(user)
 
         res.status(200).json({email,user});

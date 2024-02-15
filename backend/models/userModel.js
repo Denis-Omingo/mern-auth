@@ -18,18 +18,19 @@ const userSchema= new Schema({
 //static signup method
 
 userSchema.statics.signup= async function (email, password){
-    const exists= this.findOne({email})
+    const exists= await this.findOne({email})
 
     if (exists){
         throw Error('Email already exists!');
+    } else{
+        const salt=await bcrypt.genSalt(10);
+        const hash=await bcrypt.hash(password,salt); 
+    
+        const user= await this.create({email, password:hash})
+    
+        return user
     }
 
-    const salt=bcrypt.genSalt(10);
-    const hash=bcrypt.hash(password,salt); 
-
-    const user= this.create({email, password:hash})
-
-    return user
 }
 
 module.exports=mongoose.model('User', userSchema);
